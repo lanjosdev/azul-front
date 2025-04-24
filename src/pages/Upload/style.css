@@ -1,0 +1,18 @@
+.Page {
+    
+    .mainPage {
+        border: 3px solid rgb(10, 91, 241);
+        flex: 1;
+        padding: var(--p-vertical) var(--p-lateral);
+
+        
+
+        @media (max-width: 480px) {
+            
+            .main_top {
+                text-align: center;
+            }
+        }
+    }
+}
+
