@@ -1,5 +1,6 @@
 :root {
-    --color-primary: #3483fa;
+    /* --color-primary: #3483fa; */
+    --color-primary: #6B3DDC;
     --color-secundary: #333133;
     
     --color-bg-1: #f0f0f0;
@@ -7,6 +8,7 @@
     --color-bg-3: #a8a8ad;
     --color-text: #222121;
     --color-border: #000;
+    
     
     /* Outras cores */
     --color-w: #fff;
@@ -33,6 +35,7 @@
     --gray-700: #2D2C29;
     --gray-800: #202024;
     --gray-900: #121214;
+
 
     /* Tipografia e Espaçamento */
     --font-main: 'Open Sans';

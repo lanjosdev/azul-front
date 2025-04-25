@@ -1,17 +1,89 @@
-.Page {
-    
-    .mainPage {
-        border: 3px solid rgb(10, 91, 241);
-        flex: 1;
-        padding: var(--p-vertical) var(--p-lateral);
+/* Style global para .mainPage */
+.Page > .mainPage {
+    border: 3px solid rgb(10, 91, 241);
+    flex: 1;
+    padding: var(--p-vertical) var(--p-lateral);
 
+    .main_top {
+        margin-bottom: 2rem;
+    }
+
+
+    @media (max-width: 480px) {
         
+        .main_top {
+            text-align: center;
+        }
+    }
+}
 
-        @media (max-width: 480px) {
-            
-            .main_top {
+
+.Page > .mainPage.Upload {
+
+    .VideoUploader {
+        border: 2px solid red;
+        border-radius: 10px;
+        padding: 2rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+
+        .container_preview {
+            /* background-color: rgba(0, 255, 255, 0.26); */
+            width: 100%;
+            max-width: 40rem;
+            padding: 0 3.5rem;
+
+            .preview {
+                position: relative;
+                border: 0.3rem dashed var(--color-bg-3);
+                border-radius: 12px;
+
+                display: flex;
+                /* flex-direction: column; */
+                /* justify-content: center; */
+                align-items: center;
+
                 text-align: center;
+
+                
+                > img {
+                    visibility: hidden;
+                    max-width: 100%;
+                    user-select: none;
+                }
+
+                .preview_video,
+                .preview_empty {
+                    position: absolute;
+                    background-color: var(--color-bg-1);
+                }
+
+                .preview_video {
+                    width: 100%;
+                    border-radius: 10px;
+                }
+
+                .preview_empty {
+                    width: 100%;
+                    padding: 1rem;
+
+                    font-size: 1.4rem;
+                }
             }
+        }
+
+        .infos {
+            /* background-color: aquamarine; */
+            font-size: 1.4rem;
+        }
+
+        .container_btns {
+            flex-direction: column;
+            align-items: center;
         }
     }
 }

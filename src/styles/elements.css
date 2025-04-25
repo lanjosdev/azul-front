@@ -7,7 +7,7 @@
 /* GRID LAYOUT */
 .grid {
     width: 100%;
-    max-width: 1340px;
+    max-width: 1080px;
 
     margin: 0 auto;
 }
@@ -15,12 +15,6 @@
 
 
 /* TIPOGRAFIA */
-.title-page {
-    display: flex;
-    gap: .7rem;
-    align-items: center;
-}
-
 .txt_capitalize {
     text-transform: capitalize;
 }
@@ -352,8 +346,6 @@
         transform: rotate(45deg) translate(-0.6rem, -0.6rem);
     }
 }
-
-
 
 
 

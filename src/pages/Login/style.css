@@ -1,7 +1,7 @@
 .Page {
     /* border: 3px solid green; */
-    height: 100%;
     /* min-height: 100dvh; */
+    height: 100%;
     overflow-x: hidden;
 
     display: flex;
