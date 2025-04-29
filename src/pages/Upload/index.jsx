@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { HeaderMenu } from "../../components/HeaderMenu/HeaderMenu";
 
 // Assets:
-import imgEmpty from '../../assets/photo_empty.webp';
+import imgEmpty from '../../assets/images/photo_empty.webp';
 // import videoTest from '../../assets/video9_16.mp4';
 
 // Utils:
@@ -25,6 +25,10 @@ import './style.css';
 
 export default function Upload() {
     // Variaveis padrão:
+    const durationLimits = {
+        min: 10,
+        max: 12
+    };
     const megabyteNominal = 50;
     const megabyteLimit = megabyteNominal * 1048576;
     const infosNull = {
@@ -78,40 +82,50 @@ export default function Upload() {
 
     function handleChangeFile(e) {
         const file = e.target.files?.[0] || null;
-        setValidationErrors([]);
 
         // VALIDAÇÕES MINIMAS:
         if(!file) return;
 
         console.log(file);
-        // Verificar se é um arquivo de vídeo mp4
-        if(file.type != 'video/mp4') {
-            setValidationErrors(prev=> [...prev, 'Por favor, selecione um arquivo de vídeo mp4.']);
-            resetCurrentData();
-            return;
-        }
-
         if(file.size > megabyteLimit) {
-            setValidationErrors(prev=> [...prev, `O arquivo de vídeo deve ter o tamanho máximo de ${megabyteNominal}MB.`]);
+            setValidationErrors([`O arquivo de vídeo deve ter o tamanho máximo de ${megabyteNominal}MB.`]);
+            resetCurrentData();
+            return;
+        }
+        // Verificar se é um arquivo de vídeo mp4
+        // if(file.type != 'video/mp4') {
+        //     setValidationErrors(['Por favor, selecione um arquivo de vídeo mp4.']);
+        //     resetCurrentData();
+        //     return;
+        // }
+        if(!file.type.startsWith("video/")) {
+            setValidationErrors(['Por favor, selecione um arquivo de vídeo.']);
             resetCurrentData();
             return;
         }
 
 
-        // GERA A URL PARA PRÉ-VISUALIZAÇÂO E SALVA MIDIA EM MEMORIA:
+
+        // GERA A URL PARA PRÉ-VISUALIZAÇÂO E SALVA VIDEO E SUAS INFOS:
+        setValidationErrors([]);
         setloadingFilePreview(true);
 
         try {
             const fileUrl = URL.createObjectURL(file);
             setPreviewUrl(fileUrl);
         
-            // Verificar duração e dimensões quando o vídeo for carregado
+            // Coleta infos do vídeo e validações adicionais:
             const errors = [];
+
+            // Verificar se é um arquivo de vídeo mp4
+            if(!(file.type == 'video/mp4' || file.name.toLowerCase().endsWith('.mov'))) {
+                errors.push(`O arquivo de vídeo deve ser .mp4 ou .mov`);
+            }
 
             const video = document.createElement("video");
             video.preload = "metadata";
             video.onloadedmetadata = () => {
-                // coleta infos do video:
+                // Coleta infos do video:
                 const name_file = file.name;
                 const dimensions = {
                     width: video.videoWidth,
@@ -129,35 +143,18 @@ export default function Upload() {
                 });
 
                 
+                // Validações adicionais:
+                // Verificar proporção (1080x1920)
+                if(dimensions.width !== 1080 || dimensions.height !== 1920) {
+                    errors.push(`O vídeo deve ter o formato de 1080x1920`);
+                }
 
-                // // Verificar duração (10-15 segundos)
-                // if (duration < 10 || duration > 15) {
-                //     setValidationMessage({
-                //     type: "error",
-                //     message: `O vídeo deve ter entre 10 e 15 segundos. Duração atual: ${duration.toFixed(1)} segundos.`,
-                //     })
-                // } 
-                // else {
-                //     // Verificar dimensões
-                //     const width = video.videoWidth
-                //     const height = video.videoHeight
-                //     setVideoDimensions({ width, height })
-
-                //     // Verificar proporção (1080x1920)
-                //     if (width !== 1080 || height !== 1920) {
-                //     setValidationMessage({
-                //         type: "error",
-                //         message: `O vídeo deve ter a proporção de 1080x1920. Dimensões atuais: ${width}x${height}.`,
-                //     })
-                //     } else {
-                //     setValidationMessage({
-                //         type: "success",
-                //         message: "Vídeo válido! Pronto para upload.",
-                //     })
-                //     }
-                // }
+                // Verificar duração (10-15 segundos)
+                if (duration < 10 || duration > 15) {
+                    errors.push(`O vídeo deve ter entre ${durationLimits.min} e ${durationLimits.max} segundos`);
+                } 
                 
-                
+                setValidationErrors(errors);
                 setSelectedFile(file);
                 setloadingFilePreview(false);
             }
@@ -170,8 +167,6 @@ export default function Upload() {
             resetCurrentData();
             setloadingFilePreview(false);
         }
-        
-        console.log('FIM');
     }
   
 
@@ -210,7 +205,7 @@ export default function Upload() {
                                     <div className="preview_empty">
                                         <p className="txt_emphasis bold">Selecione um vídeo para upload</p>
                                         <p>
-                                            Formato: 1080x1920 <br /> Duração: 10-15 segundos <br /> Extensão: .mp4 <br /> Tamanho maximo: 40MB
+                                            Formato: 1080x1920 <br /> Duração: {durationLimits.min}-{durationLimits.max} segundos <br /> Extensão: .mp4 ou .mov <br /> Tamanho maximo: {megabyteNominal}MB
                                         </p>
                                     </div>
                                 )
@@ -220,19 +215,21 @@ export default function Upload() {
 
                     {/* Informações do vídeo */}
                     {selectedFile && (
-                    <div className="infos">
-                        {infosVideo?.name_file && (
-                            <p>Mídia selecionada: {infosVideo.name_file}</p>
-                        )}
-                        {infosVideo?.dimensions && (
-                            <p>Dimensões: {infosVideo.dimensions.width}x{infosVideo.dimensions.height}</p>
-                        )}
-                        {infosVideo?.duration && (
-                            <p>Duração: {infosVideo.duration} segundos</p>
-                        )}
-                        {infosVideo?.size && (
-                            <p>Tamanho: {infosVideo.size} MB</p>
-                        )}
+                    <div className="container_infos">
+                        <div className="infos">
+                            {infosVideo?.name_file && (
+                                <p><span>Arquivo:</span> {infosVideo.name_file}</p>
+                            )}
+                            {infosVideo?.dimensions && (
+                                <p><span>Dimensões:</span> {infosVideo.dimensions.width}x{infosVideo.dimensions.height}</p>
+                            )}
+                            {infosVideo?.duration && (
+                                <p><span>Duração:</span> {infosVideo.duration} segundos</p>
+                            )}
+                            {infosVideo?.size && (
+                                <p><span>Tamanho:</span> {infosVideo.size} MB</p>
+                            )}
+                        </div>
                     </div>
                     )}
 
@@ -253,18 +250,20 @@ export default function Upload() {
                     {/* Controle de ações */}
                     <div className="container_btns">
                         <label className="btn cancel">
-                            <input className="non" 
+                            <input className="none" 
                             type="file" 
                             accept="video/mp4" 
+                            // accept="video/*" 
                             onChange={handleChangeFile} 
                             disabled={loadingSubmit}
                             />
-                            {/* Selecionar vídeo */}
+
+                            Selecione um vídeo
                         </label>
 
                         <button className="btn primary"
                         onClick={()=> toast.warn('Fazer a função')}
-                        disabled={!selectedFile || validationErrors.length > 0 || loadingSubmit}
+                        disabled={!selectedFile || validationErrors.length > 0 || loadingFilePreview || loadingSubmit}
                         >
                             {loadingSubmit ? 'Enviando...' : 'Fazer upload'}
                         </button>

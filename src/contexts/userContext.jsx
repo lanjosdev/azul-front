@@ -3,8 +3,11 @@ import Cookies from "js-cookie";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// CONSTANTES:
+import { APP_CONSTANTS } from "../api/config/constants";
+
 // API:
-// import { USER_LOGIN, USER_LOGOUT } from "../API/userApi";
+import AuthService from "../api/authService";
 
 // Cria o Contexto:
 const UserContext = createContext();
@@ -33,12 +36,17 @@ export function UserProvider({ children }) {
         console.log('Call function Logar do Context...');
 
         try {
-            const response = await USER_LOGIN(email, senha);
+            const response = await AuthService.Login(email, senha);
             console.log(response);  
 
             if(response.success) {
                 toast.success('Login realizado com sucesso!');
-                Cookies.set('tokenEstoque', JSON.stringify(response.data), { expires: 1 });
+                Cookies.set(APP_CONSTANTS.AUTH_TOKEN_COOKIE_NAME, JSON.stringify(response.data), { 
+                    secure: true,
+                    sameSite: 'Strict',
+                    expires: 1 // 1 dia
+                });
+                
                 navigate('/home');
             }
             else if(response.success == false) {

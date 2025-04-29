@@ -1,6 +1,6 @@
 {
-  "name": "EstoqueBiz",
-  "short_name": "WebApp EstoqueBiz",
+  "name": "MidiaBiz",
+  "short_name": "WebApp MidiaBiz",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#000000",

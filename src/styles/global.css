@@ -1,6 +1,6 @@
 :root {
     /* --color-primary: #3483fa; */
-    --color-primary: #6B3DDC;
+    --color-primary: #6237CD;
     --color-secundary: #333133;
     
     --color-bg-1: #f0f0f0;
@@ -19,8 +19,8 @@
     --color-success: #198754;
     --color-success-bg: #D1E7DD;
     --color-success-border: #82c4a6;
-    --color-danger: #DC3545;
-    --color-danger-bg: #F8D7DA;
+    --color-danger: #df3535;
+    --color-danger-bg: #FEF2F2;
     --color-danger-border: #db989f;
     --color-warning: #ffbf00;
     --color-warning-bg: #FFF3CD;

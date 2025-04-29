@@ -8,7 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { UserProvider } from './contexts/userContext';
 
 // Components:
-import AppRoutes from './router/routes'; //Config de rotas
+import AppRoutes from './routes/AppRoutes'; //Config de rotas
 
 // Estilo Global e StyleElements:
 import './styles/global.css';

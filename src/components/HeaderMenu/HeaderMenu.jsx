@@ -16,7 +16,7 @@ import { primeiraPalavra } from '../../utils/formatStrings';
 //import { formatarHora } from '../../../utils/formatarNumbers';
 
 // Assets:
-import imgLogo from '../../assets/LOGO-BIZSYS_preto.png';
+import imgLogo from '../../assets/images/LOGO-BIZSYS_preto.png';
 
 // Estilo:
 import './headermenu.css';

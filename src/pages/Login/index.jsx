@@ -10,7 +10,7 @@ import UserContext from "../../contexts/userContext";
 import { Footer } from "../../components/Footer/Footer";
 
 // Assets:
-import imgLogo from '../../assets/LOGO-BIZSYS_preto.png';
+import imgLogo from '../../assets/images/LOGO-BIZSYS_preto.png';
 
 // Estilo:
 import './style.css';
